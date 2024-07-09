@@ -66,7 +66,7 @@ const MainPage = () => {
             }
             // await ethers.Wallet.sendTransaction(tx)
             // await signer.sendTransaction(tx)
-            await contract.transfer(receiver, parseUnits(ether))
+            const result = await contract.transfer(receiver, parseUnits(ether))
 
             // ethers.getAddress(addr);
 
@@ -74,7 +74,9 @@ const MainPage = () => {
             //     to: addr,
             //     value: ethers.utils.parseEther(ether)
             // });
-            console.log({ ether, addr });
+            const block = await provider.waitForTransaction(result.hash, 1);
+            console.log({ result, ether, addr, block });
+
             // console.log("tx", tx);
             setTxs([tx]);
         } catch (err:any) {
